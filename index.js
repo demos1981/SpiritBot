@@ -4,7 +4,6 @@ const {
   Markup
 } = require('telegraf')
 
-
 // Импорт dotenv для защиты API токена
 require('dotenv').config()
 
@@ -13,24 +12,26 @@ require('dotenv').config()
 const my_const = require('./const')
 
 
+
 // Инициализация бота с помощью Telegraf
 const bot = new Telegraf(process.env.BOT_TOKEN)
+
 
 // Обработка команды /start
 bot.start(async(ctx) => {
   try{
-    await ctx.replyWithPhoto({
-      source: src_img
-    })
-  
-    await ctx.reply(`Привет ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнакомец'}! Давай попробуем разобраться в твоем внутреннем мире.`,Markup.inlineKeyboard([
-      [Markup.button.callback('крутить', 'btn_0')]
-    ]))
+    await ctx.reply(`Привет ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнакомец'}! Давай попробуем разобраться в твоем внутреннем мире.`,Markup.inlineKeyboard(
+      [
+        [Markup.button.callback('крутить', 'btn_0')]
+      ]
+    ))
   } catch(e){
     console.log(e)
   }
    
 })
+/*bot.start((ctx) => ctx.reply(`Привет ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнакомец'}!`))*/
+
 
 // Обработка команды /help
 bot.help((ctx) => ctx.reply(my_const.commands))
@@ -41,20 +42,23 @@ bot.command('course', async (ctx) => {
   try {
     await ctx.replyWithHTML('<b>Курсы</b>', Markup.inlineKeyboard(
       [
-        [Markup.button.callback('Редакторы', 'btn_1'),Markup.button.callback('js', 'btn_2'),Markup.button.callback('Редакторы', 'btn_3')]
+        [Markup.button.callback('Редакторы', 'btn_1')]
       ]
     ))
   } catch (e) {
     console.error(e)
   }
 })
-/** 
- * Функция для отправки сообщения ботом
- * @param {String} id_btn Идентификатор кнопки для обработки
- * @param {String} src_img Путь к изображению, или false чтобы отправить только текст
- * @param {String} text Текстовое сообщение для отправки
- * @param {Boolean} preview Блокировать превью у ссылок или нет, true - блокировать, false - нет
+
+
+/**
+ *? Функция для отправки сообщения ботом
+ *? @param {String} id_btn Идентификатор кнопки для обработки
+ *? @param {String} src_img Путь к изображению, или false чтобы отправить только текст
+ *? @param {String} text Текстовое сообщение для отправки
+ * ?@param {Boolean} preview Блокировать превью у ссылок или нет, true - блокировать, false - нет
  */
+
 
 
 function addActionBot(id_btn, src_img, text, preview) {
@@ -76,10 +80,11 @@ function addActionBot(id_btn, src_img, text, preview) {
 }
 
 
+
 // Обработчик кнопок с помощью функции
 addActionBot('btn_1', './img/1.jpg', my_const.text1, true)
-addActionBot('btn_2', './img/2.jpg', my_const.text2, true)
-addActionBot('btn_3', false, my_const.text3, false)
+addActionBot('btn_0', './img/2.jpg', my_const.text2, true)
+//addActionBot('btn_3', false, my_const.text3, false)
 
 // Запустить бота
 bot.launch()
