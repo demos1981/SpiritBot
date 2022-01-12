@@ -20,9 +20,9 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 // Обработка команды /start
 bot.start(async(ctx) => {
   try{
-    await ctx.reply(`Привет ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнакомец'}! Давай попробуем разобраться в твоем внутреннем мире.`,Markup.inlineKeyboard(
+    await ctx.reply(`Привет ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнакомец'}! Давай попробуем разобраться в твоем внутреннем мире.Если ты готов то нажми кнопкувнизу`,Markup.inlineKeyboard(
       [
-        [Markup.button.callback('крутить', 'btn_0')]
+        [Markup.button.callback('Готов', 'btn_0')]
       ]
     ))
   } catch(e){
@@ -37,12 +37,13 @@ bot.start(async(ctx) => {
 bot.help((ctx) => ctx.reply(my_const.commands))
 
 
-// Обработка команды /course
-bot.command('course', async (ctx) => {
+// Обработка команды /button
+bot.command('button', async (ctx) => {
   try {
-    await ctx.replyWithHTML('<b>Курсы</b>', Markup.inlineKeyboard(
+    await ctx.replyWithHTML('<b>ok</b>', Markup.keyboard(
       [
-        [Markup.button.callback('Редакторы', 'btn_1')]
+        [Markup.button.callback('Menu', 'btn_1'),Markup.button.callback('Back', 'btn_3'),Markup.button.callback('My', 'btn_4')]
+       
       ]
     ))
   } catch (e) {
@@ -84,7 +85,7 @@ function addActionBot(id_btn, src_img, text, preview) {
 // Обработчик кнопок с помощью функции
 addActionBot('btn_1', './img/1.jpg', my_const.text1, true)
 addActionBot('btn_0', './img/2.jpg', my_const.text2, true)
-//addActionBot('btn_3', false, my_const.text3, false)
+//addActionBot('btn_4', false, my_const.text3, false)
 
 // Запустить бота
 bot.launch()
