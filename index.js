@@ -1,7 +1,8 @@
 // Импорт Telegraf и Markup
 const {
   Telegraf,
-  Markup
+  Markup,
+  Scenes
 } = require('telegraf')
 
 // Импорт dotenv для защиты API токена
@@ -11,11 +12,34 @@ require('dotenv').config()
 // Импорт нашего модуля с константами
 const my_const = require('./const')
 
+const backScene = require('./scenes/back.js')
+const menuScene = require('./scenes/menu.js')
+const myScene = require('./scenes/my.js')
+
+
+
 
 
 // Инициализация бота с помощью Telegraf
 const bot = new Telegraf(process.env.BOT_TOKEN)
+//Логер
+bot.use(Telegraf.log())
 
+
+/*bot.start((ctx) => ctx.reply(`Привет ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнакомец'}!`))*/
+
+
+// Обработка команды /help
+bot.help((ctx) => ctx.reply(my_const.commands))
+
+const stage = new Scenes.Stage([menuScene,backScene,myScene])
+//bot.use(sessison())
+bot.use(stage.middleware())
+
+
+bot.hears('Menu',ctx=>ctx.scene.enter('menuWizard'))
+bot.hears('Back',ctx=>ctx.scene.enter('backWizard'))
+bot.hears('My',ctx=>ctx.scene.enter('myWizard'))
 
 // Обработка команды /start
 bot.start(async(ctx) => {
@@ -30,22 +54,16 @@ bot.start(async(ctx) => {
   }
    
 })
-/*bot.start((ctx) => ctx.reply(`Привет ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнакомец'}!`))*/
-
-
-// Обработка команды /help
-bot.help((ctx) => ctx.reply(my_const.commands))
-
 
 // Обработка команды /button
 bot.command('button', async (ctx) => {
   try {
-    await ctx.replyWithHTML('<b>ok</b>', Markup.keyboard(
+    await ctx.reply('ok', Markup.keyboard(
       [
-        [Markup.button.callback('Menu', 'btn_1'),Markup.button.callback('Back', 'btn_3'),Markup.button.callback('My', 'btn_4')]
+        ['Menu','Back','My']
        
       ]
-    ))
+    ).oneTime().resize())
   } catch (e) {
     console.error(e)
   }
@@ -85,7 +103,7 @@ function addActionBot(id_btn, src_img, text, preview) {
 // Обработчик кнопок с помощью функции
 addActionBot('btn_1', './img/1.jpg', my_const.text1, true)
 addActionBot('btn_0', './img/2.jpg', my_const.text2, true)
-//addActionBot('btn_4', false, my_const.text3, false)
+addActionBot('btn_4', false, my_const.text3, false)
 
 // Запустить бота
 bot.launch()
