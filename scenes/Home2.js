@@ -1,4 +1,4 @@
-const {Markup,Composer,Scenes}= require('telegraf')
+const {Markup,Composer,Scenes,session}= require('telegraf')
 const startStep = new Composer()
 startStep.on('text',async(ctx)=>{
     try{
@@ -7,7 +7,7 @@ startStep.on('text',async(ctx)=>{
        ctx.wizard.state.data.firstName = ctx.message.from.first_name //Имя
        ctx.wizard.state.data.lastName = ctx.message.from.last_name //Фамилия*/
        await ctx.replyWithHTML("<b>Вам выпал дом счастья?</b>\n<i>вы цените отношение к себе</i>")
-       await ctx.reply("как вы думаете почему?")
+       //sawait ctx.reply("как вы думаете почему?")
     }catch(e){
         console.log(e)
     }
