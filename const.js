@@ -14,8 +14,12 @@ const text2 = `
 const text4 = `
 3 <u>Подчёркнутый Текст</u> для проверки обработчика и <a href="https://youtube.com/">Жми</a>
 `
+
+const text5 = `
+3 <u>Подчёркнутый Текст</u> >Жми</a>
+`
 // Экспорт констант
 module.exports.commands = commands
 module.exports.text1 = text1
 module.exports.text2 = text2
-module.exports.text4 = text4
+module.exports.text5 = text5
