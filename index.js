@@ -3,10 +3,6 @@ const {
   Telegraf,
   Markup,
   Scenes,
-<<<<<<< HEAD
-=======
-  
->>>>>>> 2ca7119eb991769507b324f79bf51a32a4ff24eb
   session
 } = require('telegraf')
 
@@ -71,17 +67,6 @@ bot.hears('Home2',ctx=>ctx.scene.enter('home2Wizard'))
 bot.hears('Home3',ctx=>ctx.scene.enter('home3Wizard'))
 bot.hears('Home4',ctx=>ctx.scene.enter('home4Wizard'))
 
-
-
-<<<<<<< HEAD
-bot.hears('Home1', ctx=>ctx.scene.enter('home1Wizard'))
-bot.hears('Home2',ctx=>ctx.scene.enter('home2Wizard'))
-bot.hears('Home3',ctx=>ctx.scene.enter('home3Wizard'))
-bot.hears('Home4',ctx=>ctx.scene.enter('home4Wizard'))
-
-
-=======
->>>>>>> 2ca7119eb991769507b324f79bf51a32a4ff24eb
 
 // Обработка команды /start
 bot.start(async(ctx) => {
