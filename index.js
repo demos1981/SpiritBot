@@ -3,6 +3,10 @@ const {
   Telegraf,
   Markup,
   Scenes,
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 2ca7119eb991769507b324f79bf51a32a4ff24eb
   session
 } = require('telegraf')
 
@@ -46,13 +50,38 @@ const stage = new Scenes.Stage([home1Scene,home2Scene,home3Scene,home4Scene])
 bot.use(session())
 bot.use(stage.middleware())
 
+/*bot.hears('Home1', async (ctx)=>{
+  try{
+    await ctx.scene.enter('home1Wizard')
+  }catch(e){
+    console.log(e)
+  }
+})
+  
+bot.hears('Home2', async(ctx)=>{
+  try{
+   await ctx.scene.enter('home2Wizard')
+  }catch(e){
+    console.log(e)
+  }
+  })*/
 
+bot.hears('Home1',ctx=>ctx.scene.enter('home1Wizard'))
+bot.hears('Home2',ctx=>ctx.scene.enter('home2Wizard'))
+bot.hears('Home3',ctx=>ctx.scene.enter('home3Wizard'))
+bot.hears('Home4',ctx=>ctx.scene.enter('home4Wizard'))
+
+
+
+<<<<<<< HEAD
 bot.hears('Home1', ctx=>ctx.scene.enter('home1Wizard'))
 bot.hears('Home2',ctx=>ctx.scene.enter('home2Wizard'))
 bot.hears('Home3',ctx=>ctx.scene.enter('home3Wizard'))
 bot.hears('Home4',ctx=>ctx.scene.enter('home4Wizard'))
 
 
+=======
+>>>>>>> 2ca7119eb991769507b324f79bf51a32a4ff24eb
 
 // Обработка команды /start
 bot.start(async(ctx) => {
@@ -137,6 +166,10 @@ addActionBot('btn_1', './img/1.jpg', my_const.text1, true)
 addActionBot('btn_0', './img/2.jpg', my_const.text2, true)
 addActionBot('btn_5', './img/2.jpg', my_const.text5, true)
 addActionBot('btn_4', false, my_const.text3, false)
+
+
+
+
 
 // Запустить бота
 bot.launch()
