@@ -13,9 +13,9 @@ startStep.on('text',async(ctx)=>{
        await ctx.replyWithHTML("<b>Что вы ищете в жизни?</b>\n<i>Свободу,любовь,деньги</i>")
 
        await ctx.replyWithHTML("<b>Вам выпал дом3.дом побед и стремлений?</b>\n<i>Вы  карьерист</i>")
-       //await ctx.reply("Как далеко вы можете зайти?")
+       return ctx.wizard.next()
     }catch(e){
-        console.log(e)
+        console.error(e)
     }
 })
 const home3Scene = new Scenes.WizardScene('home3Wizard',startStep)

@@ -14,11 +14,11 @@ startStep.on('text',async(ctx)=>{
        await ctx.replyWithHTML("<b>Что вы ищете в жизни?</b>\n<i>Свободу,любовь,деньги</i>")
 
        await ctx.replyWithHTML("<b>Вам выпал дом4 Мягкость и покладистось?</b>\n<i>Взвешенность и рассудительность</i>")
-       //await ctx.reply("Хорошо ли иметь такой характер, как вы считаете?")
+      
 
-       //return ctx.wizard.next()
+       return ctx.wizard.next()
     }catch(e){
-        console.log(e)
+        console.error(e)
     }
 })
 

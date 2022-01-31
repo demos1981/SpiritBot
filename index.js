@@ -1,4 +1,4 @@
-// Импорт Telegraf и Markup
+//?? Импорт Telegraf и Markup
 const {
   Telegraf,
   Markup,
@@ -6,16 +6,16 @@ const {
   session
 } = require('telegraf')
 
-// Импорт dotenv для защиты API токена
+//?? Импорт dotenv для защиты API токена
 require('dotenv').config()
 
 
-// Импорт нашего модуля с константами
+//?? Импорт нашего модуля с константами
 const my_const = require('./const')
 
 
 
-// создание зависимостей сценариев
+//?? создание зависимостей сценариев
 const home3Scene = require('./scenes/Home3.js')
 const home1Scene = require('./scenes/Home1.js')
 const home2Scene = require('./scenes/Home2.js')
@@ -25,42 +25,28 @@ const home4Scene = require('./scenes/Home4.js')
 
 
 
-// Инициализация бота с помощью Telegraf
+//?? Инициализация бота с помощью Telegraf
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 
 
-//Логер
-//bot.use(Telegraf.log())
+//??Логер
+bot.use(Telegraf.log())
 
 
 
-// Обработка команды /help
+//?? Обработка команды /help
 bot.help((ctx) => ctx.reply(my_const.commands))
 
 
-// создание прототипа сценариев
+//?? создание прототипа сценариев
 const stage = new Scenes.Stage([home1Scene,home2Scene,home3Scene,home4Scene])
 
-//middleware
+//??middleware
 bot.use(session())
 bot.use(stage.middleware())
 
-/*bot.hears('Home1', async (ctx)=>{
-  try{
-    await ctx.scene.enter('home1Wizard')
-  }catch(e){
-    console.log(e)
-  }
-})
-  
-bot.hears('Home2', async(ctx)=>{
-  try{
-   await ctx.scene.enter('home2Wizard')
-  }catch(e){
-    console.log(e)
-  }
-  })*/
+
 
 bot.hears('Home1',ctx=>ctx.scene.enter('home1Wizard'))
 bot.hears('Home2',ctx=>ctx.scene.enter('home2Wizard'))
@@ -68,58 +54,63 @@ bot.hears('Home3',ctx=>ctx.scene.enter('home3Wizard'))
 bot.hears('Home4',ctx=>ctx.scene.enter('home4Wizard'))
 
 
-// Обработка команды /start
+//?? Обработка команды /start
 bot.start(async(ctx) => {
-  try{
-    await ctx.reply( 'okey',Markup.keyboard(
-      [
-        ['Home1','Home2','Home3','Home4']
-       
-      ]).oneTime().resize())
-    } catch(e){
-    console.log(e)
-  }
   try{
     await ctx.reply(`Привет ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнакомец'}! Давай попробуем разобраться в твоем внутреннем мире.Если ты готов то нажми кнопку внизу`,Markup.inlineKeyboard(
       [
         [Markup.button.callback('Готов', 'btn_0')]
       ]
-
-     
     ))
+    } catch(e){
+    console.log(e)
+  }
+})
+
+
+
+
+//?? событие на слово "okey"
+bot.hears('okey',async(ctx)=>{
+  try{
+   await ctx.scene.enter('okeyWizard',)
+  } catch(e){
+    console.log(e)
+  }
+  try{
+    await ctx.reply( 'Жми',Markup.keyboard(
+      [
+        ['Home1','Home2','Home3','Home4']
+       
+      ]).oneTime().resize())
+  
     } catch(e){
       console.log(e)
     }
- 
-   
 })
-/*bot.on('menu',async (ctx)=>{
+/*try{
+  await ctx.reply( 'okey',Markup.keyboard(
+    [
+      ['Home1','Home2','Home3','Home4']
+     
+    ]).oneTime().resize())
+
+  } catch(e){
+    console.log(e)
+  }*/
+
+
+bot.command('button',async (ctx)=>{
   try{
-    await ctx.reply('Главное меню')
+    await ctx.reply('Главное меню', Markup.keyboard(
+      [
+        [Markup.button.callback('Начать с начала','btn_5')]
+      ]).oneTime().resize())
   }catch(e){
     comsole.error(e)
   }
-})*/
-
-// Обработка команды /button
-/*bot.command('button', async (ctx) => {
-  try {
-    await ctx.reply('ok', Markup.keyboard(
-      [
-        ['Menu','Back','My']
-       
-      ]
-    ).oneTime().resize())
-  } catch (e) {
-    console.error(e)
-  }
-})*/
-
-
-
-
-
-
+})
+bot.hears('Начать с начала',ctx=>ctx.reply('/start'))
 
 
 function addActionBot(id_btn, src_img, text, preview) {
@@ -139,27 +130,21 @@ function addActionBot(id_btn, src_img, text, preview) {
     }
   })
 }
-/*const markup = Markup.inlineKeyboard([
-  Markup.button.game('🎮 Play now!'),
-  Markup.button.url('Telegraf help', 'http://telegraf.js.org')
-])*/
 
 
-
-// Обработчик кнопок с помощью функции
-addActionBot('btn_1', './img/1.jpg', my_const.text1, true)
-addActionBot('btn_0', './img/2.jpg', my_const.text2, true)
+//?? Обработчик кнопок с помощью функции
+addActionBot('btn_0', './img/1.jpg', my_const.text2, true)
 addActionBot('btn_5', './img/2.jpg', my_const.text5, true)
-addActionBot('btn_4', false, my_const.text3, false)
 
 
 
 
 
-// Запустить бота
+
+//?? Запустить бота
 bot.launch()
 
-// Включить плавную остановку
+//?? Включить плавную остановку
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
 

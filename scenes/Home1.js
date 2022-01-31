@@ -12,11 +12,14 @@ startStep.on('text',async(ctx)=>{
        await ctx.replyWithHTML("<b>Вам выпал дом1?</b>\n<i>Значит вы цените свободу,</i>")
 
        //return ctx.wizard.next()
-
-       await ctx.reply("Составте список своих желаний")
-       return ctx.wizard.next()
+       
     }catch(e){
-        console.log(e)
+        console.error(e)
+    }
+    try{
+        await ctx.reply('Расскажите о себе подробней')
+    }catch(e){
+        console.error(e)
     }
 })
 
